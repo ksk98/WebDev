@@ -6,6 +6,7 @@ import com.project.ImageGallery.model.User;
 import com.project.ImageGallery.repository.GalleryRepository;
 import com.project.ImageGallery.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 
 @Service
+@Data
 @AllArgsConstructor
 public class GalleryService {
     private final GalleryRepository galleryRepository;

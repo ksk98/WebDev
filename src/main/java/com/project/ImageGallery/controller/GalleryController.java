@@ -8,7 +8,6 @@ import com.project.ImageGallery.schema.ImagesUploadSchema;
 import com.project.ImageGallery.service.GalleryService;
 import com.project.ImageGallery.service.ImageService;
 import com.project.ImageGallery.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +16,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/gallery")
-@AllArgsConstructor
 public class GalleryController extends BaseController {
     private final ImageService imageService;
     private final GalleryService galleryService;
     private final UserService userService;
 
+    public GalleryController(ImageService imageService, GalleryService galleryService, UserService userService) {
+        super(userService.getUserRepository());
+        this.imageService = imageService;
+        this.galleryService = galleryService;
+        this.userService = userService;
+    }
+
     @PostMapping("")
     public ResponseEntity<Gallery> createGallery(@RequestBody GallerySchema payload) {
-        User owner = verifyUserForOwnerThrowUnauthorized(payload.getOwnerId(), userService.getUserRepository());
+        User owner = verifyUserForOwnerThrowUnauthorized(payload.getOwnerId());
 
         Gallery gallery = galleryService.createGallery(userService.getUser(payload.getOwnerId()), payload.getName());
         List<Image> images = payload.getImages().stream().map(
@@ -34,10 +39,18 @@ public class GalleryController extends BaseController {
         return new ResponseEntity<>(galleryService.addImagesTo(gallery.getId(), images), HttpStatus.CREATED);
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<Long>> getGalleries() {
+        User caller = getCaller();
+
+        List<Gallery> galleries = galleryService.getGalleryRepository().getAllByOwner(caller);
+        return new ResponseEntity<>(galleries.stream().map(Gallery::getId).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Gallery> getGallery(@PathVariable long id) {
         Gallery gallery = galleryService.getGallery(id);
-        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId(), userService.getUserRepository());
+        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
         return new ResponseEntity<>(gallery, HttpStatus.OK);
     }
@@ -45,7 +58,7 @@ public class GalleryController extends BaseController {
     @PutMapping("/{id}")
     public ResponseEntity<Gallery> updateGallery(@PathVariable long id, @RequestBody GallerySchema payload) {
         Gallery gallery = galleryService.getGallery(id);
-        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId(), userService.getUserRepository());
+        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
         return new ResponseEntity<>(galleryService.updateGallery(Gallery.builder().name(payload.getName()).build()), HttpStatus.OK);
     }
@@ -53,7 +66,7 @@ public class GalleryController extends BaseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<GallerySchema> deleteGallery(@PathVariable long id) {
         Gallery gallery = galleryService.getGallery(id);
-        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId(), userService.getUserRepository());
+        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
         galleryService.deleteGallery(id);
 
@@ -63,7 +76,7 @@ public class GalleryController extends BaseController {
     @PostMapping("/{id}/images")
     public ResponseEntity<Gallery> addImages(@PathVariable long id, @RequestBody ImagesUploadSchema payload) {
         Gallery gallery = galleryService.getGallery(id);
-        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId(), userService.getUserRepository());
+        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
         return new ResponseEntity<>(galleryService.addImagesTo(id, payload.getImages().stream().map(
                 schema -> Image
@@ -78,7 +91,7 @@ public class GalleryController extends BaseController {
     @DeleteMapping("/{id}/images")
     public ResponseEntity<Gallery> removeImages(@PathVariable long id, @RequestBody ImagesUploadSchema payload) {
         Gallery gallery = galleryService.getGallery(id);
-        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId(), userService.getUserRepository());
+        verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
         return new ResponseEntity<>(galleryService.removeImagesFrom(id, payload.getImages().stream().map(
                 schema -> Image
