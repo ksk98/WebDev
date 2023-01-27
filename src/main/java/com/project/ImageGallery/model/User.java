@@ -32,14 +32,14 @@ public class User implements UserDetails {
     private String username;
 
     @Nonnull
-    private String password;
+    private transient String password;
 
     @OneToMany(cascade=ALL)
     private List<Gallery> galleries;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    private transient List<String> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
