@@ -1,5 +1,6 @@
 package com.project.ImageGallery.model;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class Gallery implements Serializable {
     private Long id;
 
     @ManyToOne
+    @Nonnull
     private User owner;
 
     @OneToMany(cascade=ALL)

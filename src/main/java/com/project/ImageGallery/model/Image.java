@@ -1,5 +1,6 @@
 package com.project.ImageGallery.model;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,11 +18,16 @@ public class Image {
     private Long id;
 
     @ManyToOne
+    @Nonnull
     private Gallery gallery;
 
     @ManyToOne
+    @Nonnull
     private User owner;
 
-    private String name;
+    @Builder.Default
+    private String name = "New image";
+
+    @Nonnull
     private byte[] content;
 }
