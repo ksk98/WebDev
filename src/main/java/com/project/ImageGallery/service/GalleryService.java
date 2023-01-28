@@ -63,9 +63,7 @@ public class GalleryService {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User is not the owner of added images.");
         });
 
-        Set<Image> allImages = new HashSet<>(gallery.getImages());
-        allImages.addAll(images);
-        gallery.setImages(allImages.stream().toList());
+        gallery.getImages().addAll(images);
 
         return galleryRepository.save(gallery);
     }

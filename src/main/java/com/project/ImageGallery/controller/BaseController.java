@@ -28,11 +28,9 @@ public class BaseController {
     }
 
     protected User getCaller() {
-        return userRepository.findByUsername(
-                ((org.springframework.security.core.userdetails.User) SecurityContextHolder
+        return userRepository.findByUsername(SecurityContextHolder
                         .getContext()
                         .getAuthentication()
-                        .getPrincipal())
-                        .getUsername());
+                        .getName());
     }
 }

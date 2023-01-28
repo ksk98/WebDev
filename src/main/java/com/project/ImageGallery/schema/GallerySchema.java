@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class GallerySchema {
-    private long ownerId;
     private String name;
     private List<ImageSchema> images;
 }

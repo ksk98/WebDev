@@ -15,24 +15,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RestController
 @RequestMapping("/gallery")
 public class GalleryController extends BaseController {
     private final ImageService imageService;
     private final GalleryService galleryService;
-    private final UserService userService;
 
     public GalleryController(ImageService imageService, GalleryService galleryService, UserService userService) {
         super(userService.getUserRepository());
         this.imageService = imageService;
         this.galleryService = galleryService;
-        this.userService = userService;
     }
 
     @PostMapping("")
     public ResponseEntity<Gallery> createGallery(@RequestBody GallerySchema payload) {
-        User owner = verifyUserForOwnerThrowUnauthorized(payload.getOwnerId());
+        User owner = getCaller();
 
-        Gallery gallery = galleryService.createGallery(userService.getUser(payload.getOwnerId()), payload.getName());
+        Gallery gallery = galleryService.createGallery(owner, payload.getName());
         List<Image> images = payload.getImages().stream().map(
                 schema -> imageService.createImage(owner, schema.getContent(), gallery, schema.getName())).toList();
 

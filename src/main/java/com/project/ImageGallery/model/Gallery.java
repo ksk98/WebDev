@@ -1,6 +1,7 @@
 package com.project.ImageGallery.model;
 
-import jakarta.annotation.Nonnull;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
 
 @Entity
+@Table(name = "GALLERIES")
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,14 +25,18 @@ public class Gallery implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @Nonnull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USERS_ID")
+    @JsonBackReference
     private User owner;
 
-    @OneToMany(cascade=ALL)
+    @Column(name = "IMAGES", nullable = false)
+    @OneToMany(cascade = ALL, fetch = FetchType.LAZY, mappedBy = "gallery")
     @Builder.Default
-    private List<Image> images = new ArrayList<>();
+    @JsonManagedReference
+    private List<Image> images = new LinkedList<>();
 
+    @Column(name = "NAME", nullable = false)
     @Builder.Default
     private String name = "New gallery";
 }

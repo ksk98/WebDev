@@ -1,5 +1,6 @@
 package com.project.ImageGallery.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,13 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
 import static java.util.stream.Collectors.toList;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 @Data
 @Builder
 @AllArgsConstructor
@@ -28,18 +30,21 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
 
-    @Nonnull
-    private transient String password;
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
 
-    @OneToMany(cascade=ALL)
-    private List<Gallery> galleries;
+    @Column(name = "GALLERIES", nullable = false)
+    @OneToMany(cascade=ALL, fetch = FetchType.LAZY, mappedBy = "owner")
+    @JsonManagedReference
+    private List<Gallery> galleries = new LinkedList<>();
 
+    @Column(name = "ROLES", nullable = false)
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
-    private transient List<String> roles = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
