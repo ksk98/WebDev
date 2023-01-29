@@ -14,12 +14,7 @@ public class BaseController {
     private final UserRepository userRepository;
 
     protected User verifyUserForOwnerThrowUnauthorized(long targetUserId) {
-        User caller = userRepository.findByUsername(
-                ((org.springframework.security.core.userdetails.User) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal())
-                        .getUsername());
+        User caller = getCaller();
 
         if (caller.getId().equals(targetUserId))
             return caller;
@@ -32,5 +27,14 @@ public class BaseController {
                         .getContext()
                         .getAuthentication()
                         .getName());
+    }
+
+    protected User getCallerThrowUnauthorizedIfNull() {
+        User caller = getCaller();
+
+        if (caller == null)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        return caller;
     }
 }

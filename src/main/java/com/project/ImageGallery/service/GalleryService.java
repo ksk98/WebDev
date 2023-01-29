@@ -68,11 +68,10 @@ public class GalleryService {
         return galleryRepository.save(gallery);
     }
 
-    public Gallery removeImagesFrom(long id, List<Image> images) {
+    public Gallery removeImagesFrom(long id, List<Long> ids) {
         Gallery gallery = getGalleryOrThrowNotFound(id);
 
-        gallery.getImages().iterator().forEachRemaining(image -> imageService.deleteImage(image.getId()));
-        gallery.getImages().removeAll(images);
+        gallery.getImages().removeAll(ids.stream().map(imageService::deleteImage).toList());
 
         return galleryRepository.save(gallery);
     }

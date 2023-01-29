@@ -29,7 +29,7 @@ public class GalleryController extends BaseController {
 
     @PostMapping("")
     public ResponseEntity<Gallery> createGallery(@RequestBody GallerySchema payload) {
-        User owner = getCaller();
+        User owner = getCallerThrowUnauthorizedIfNull();
 
         Gallery gallery = galleryService.createGallery(owner, payload.getName());
         List<Image> images = payload.getImages().stream().map(
@@ -59,7 +59,7 @@ public class GalleryController extends BaseController {
         Gallery gallery = galleryService.getGallery(id);
         verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
-        return new ResponseEntity<>(galleryService.updateGallery(Gallery.builder().name(payload.getName()).build()), HttpStatus.OK);
+        return new ResponseEntity<>(galleryService.updateGallery(Gallery.builder().id(id).name(payload.getName()).build()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -88,17 +88,10 @@ public class GalleryController extends BaseController {
     }
 
     @DeleteMapping("/{id}/images")
-    public ResponseEntity<Gallery> removeImages(@PathVariable long id, @RequestBody ImagesUploadSchema payload) {
+    public ResponseEntity<Gallery> removeImages(@PathVariable long id, @RequestBody List<Long> payload) {
         Gallery gallery = galleryService.getGallery(id);
         verifyUserForOwnerThrowUnauthorized(gallery.getOwner().getId());
 
-        return new ResponseEntity<>(galleryService.removeImagesFrom(id, payload.getImages().stream().map(
-                schema -> Image
-                        .builder()
-                        .owner(gallery.getOwner())
-                        .gallery(gallery)
-                        .content(schema.getContent())
-                        .build()
-        ).collect(Collectors.toList())), HttpStatus.OK);
+        return new ResponseEntity<>(galleryService.removeImagesFrom(id, payload), HttpStatus.OK);
     }
 }
