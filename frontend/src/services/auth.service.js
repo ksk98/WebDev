@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Buffer } from 'buffer/';
 
 class AuthService {
   login(user) {
@@ -6,6 +7,10 @@ class AuthService {
       .post('http://localhost:8080/token', {
         username: user.username,
         password: user.password
+      }, {
+        headers: {
+          'Authorization': 'Basic ' + this.tokenFrom(user.username, user.password)
+        }
       })
       .then(response => {
         if (response.data.accessToken) {
@@ -25,6 +30,10 @@ class AuthService {
       username: user.username,
       password: user.password
     });
+  }
+
+  tokenFrom(username, password) {
+    return Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
   }
 }
 
