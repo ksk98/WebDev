@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*")
 @RestController
 @RequestMapping("/gallery")
 public class GalleryController extends BaseController {
@@ -39,11 +40,11 @@ public class GalleryController extends BaseController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Long>> getGalleries() {
+    public ResponseEntity<List<Gallery>> getGalleries() {
         User caller = getCaller();
 
         List<Gallery> galleries = galleryService.getGalleryRepository().getAllByOwner(caller);
-        return new ResponseEntity<>(galleries.stream().map(Gallery::getId).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(galleries, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
