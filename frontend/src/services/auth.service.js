@@ -4,7 +4,7 @@ import { Buffer } from 'buffer/';
 class AuthService {
   login(user) {
     return axios
-      .post('http://localhost:8080/token',
+      .post('http://localhost:8080/login',
           {
         username: user.username,
         password: user.password

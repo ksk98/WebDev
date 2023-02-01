@@ -2,7 +2,7 @@
   <div class="container">
     <header v-if="currentUser != null" class="jumbotron">
       <h3>
-        <strong>{{currentUser.username}}'s galleries:</strong> Profile
+        <strong>{{currentUser.username}}'s</strong> galleries:
       </h3>
     </header>
     <p v-for="gallery in data" :key="gallery">{{gallery}}</p>
