@@ -1,12 +1,23 @@
 <template>
-  <div class="container">
-    <header v-if="currentUser != null" class="jumbotron">
+  <div class="jumbotron">
+    <header v-if="currentUser != null">
       <h3>
         <strong>{{currentUser.username}}'s</strong> galleries:
       </h3>
     </header>
     <p v-for="gallery in data" :key="gallery">{{gallery}}</p>
-    <p v-if="!data">No galleries present.</p>
+    <p v-if="data.content === ''"><i>No galleries present.</i></p>
+    <Form @submit="handleLogin" :validation-schema="schema">
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" :disabled="loading">
+          <span
+            v-show="loading"
+            class="spinner-border spinner-border-sm"
+          ></span>
+          <span>Create gallery</span>
+        </button>
+      </div>
+    </Form>
   </div>
 </template>
 
@@ -43,6 +54,11 @@ export default {
           error.toString();
       }
     )
+  },
+  methods: {
+    createGallery() {
+
+    }
   }
 }
 </script>
