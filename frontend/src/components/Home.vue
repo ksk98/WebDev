@@ -4,7 +4,7 @@
       <h1 class="cover-heading">Store your images.</h1>
       <p class="lead">Upload and manage your images and galleries.</p>
       <p class="lead">
-        <a href="/login" class="btn btn-lg btn-secondary">Start</a>
+        <a href="/galleries" class="btn btn-lg btn-secondary">Start</a>
       </p>
     </main>
   </div>

@@ -7,8 +7,14 @@
     </header>
 
     <p v-if="!galleries_loaded">No galleries present.</p>
-    <ul v-else-if="galleries_loaded">
-      <li v-for="gallery in content" :key="gallery">{{ gallery }}</li>
+    <ul v-else-if="galleries_loaded"  id="galleries">
+<!--      <li v-for="gallery in content" :key="gallery">-->
+<!--        <ul>-->
+<!--          <li v-for="image in gallery.images" :key="image">-->
+<!--            {{base64ToImage(image.contentHeader + image.content)}}-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </li>-->
     </ul>
 
     <button onclick="location.href='/createGallery'" class="btn btn-primary btn-block" :disabled="loading">
@@ -23,13 +29,15 @@
 
 <script>
 import GalleryService from "@/services/gallery-service";
+import {nextTick} from "vue";
 
 export default {
   name: "Gallery.vue",
   data() {
     return {
       galleries_loaded: false,
-      content: ""
+      content: "",
+      loading: true
     }
   },
   computed: {
@@ -46,7 +54,8 @@ export default {
       (response) => {
         this.content = response.data;
         this.galleries_loaded = true;
-        console.log("Got " + this.content.length)
+        this.loading = false;
+        this.displayGalleries()
       },
       (error) => {
         this.content =
@@ -57,6 +66,36 @@ export default {
           error.toString();
       }
     )
+  },
+  methods: {
+    base64ToImage(content) {
+      const out = new Image()
+      out.src = content;
+      return out.tag;
+    },
+    async displayGalleries() {
+      await nextTick()
+
+      const galleryList = document.getElementById("galleries")
+      for (let gallery in this.content) {
+        const galleryListEntry = document.createElement("li")
+
+        console.log(gallery)
+
+        const imageList = document.createElement("ul")
+        for (let image in gallery.images){
+          const imageListEntry = document.createElement("li")
+          const imageDisplay = document.createElement("img")
+          imageDisplay.src = image.contentHeader + image.content
+          imageDisplay.alt = "IMAGE"
+          imageListEntry.appendChild(imageDisplay)
+          imageList.appendChild(imageListEntry)
+        }
+
+        galleryListEntry.appendChild(imageList)
+        galleryList.appendChild(galleryListEntry)
+      }
+    }
   }
 }
 </script>

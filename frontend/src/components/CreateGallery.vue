@@ -55,10 +55,9 @@ export default {
   },
   methods: {
     createGallery(gallery) {
-      let files_promise = gallery.files.map(async file => ({
-        content: await this.getBase64(file),
-        name: file.name
-      }));
+      let files_promise = gallery.files.map(async file =>
+        await this.getBase64(file),
+      );
       // eslint-disable-next-line
       Promise.all(files_promise).then(results => {
         galleryService.createGallery(gallery.name, results)
@@ -69,11 +68,20 @@ export default {
         const reader = new FileReader ();
         reader.readAsDataURL (file);
         // eslint-disable-next-line
-        reader.onload = _ => resolve (reader.result
-            .replace('data:', '')
-            .replace(/^.+,/, ''))
+        reader.onload = _ => resolve(
+            this.prepareFile(file.name, reader.result.split(/(?<=,)/))
+            // .replace('data:', '')
+            // .replace(/^.+,/, '')
+        )
         reader.onerror = e => reject (e);
       });
+    },
+    prepareFile(file_name, base64_split) {
+      return ({
+        name: file_name,
+        contentHeader: base64_split[0],
+        content: base64_split[1]
+      })
     }
   }
 }

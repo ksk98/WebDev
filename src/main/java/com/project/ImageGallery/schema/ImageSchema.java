@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImageSchema {
     private long id;
-    private String name;
+    private String name, contentHeader;
     private byte[] content;
 }

@@ -20,7 +20,7 @@ public class ImageService {
     private final UserRepository userRepository;
     private final GalleryRepository galleryRepository;
 
-    public Image createImage(User owner, byte[] content, Gallery gallery, String name) {
+    public Image createImage(User owner, byte[] content, String contentHeader, Gallery gallery, String name) {
         if (owner == null || !userRepository.existsById(owner.getId()))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Owner doesn't exist.");
 
@@ -32,6 +32,7 @@ public class ImageService {
 
         Image image = Image.builder()
                 .owner(owner)
+                .contentHeader(contentHeader)
                 .content(content)
                 .gallery(gallery)
                 .name(name)

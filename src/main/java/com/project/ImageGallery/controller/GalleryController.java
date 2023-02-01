@@ -34,7 +34,7 @@ public class GalleryController extends BaseController {
 
         Gallery gallery = galleryService.createGallery(owner, payload.getName());
         List<Image> images = payload.getImages().stream().map(
-                schema -> imageService.createImage(owner, schema.getContent(), gallery, schema.getName())).toList();
+                schema -> imageService.createImage(owner, schema.getContent(), schema.getContentHeader(), gallery, schema.getName())).toList();
 
         return new ResponseEntity<>(galleryService.addImagesTo(gallery.getId(), images), HttpStatus.CREATED);
     }

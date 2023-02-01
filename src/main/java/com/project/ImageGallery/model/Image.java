@@ -37,4 +37,7 @@ public class Image {
     @Column(name = "CONTENT", nullable = false)
     @Basic(fetch = FetchType.LAZY)
     private byte[] content;
+
+    @Column(name = "CONTENT_HEADER", nullable = false)
+    private String contentHeader;
 }
