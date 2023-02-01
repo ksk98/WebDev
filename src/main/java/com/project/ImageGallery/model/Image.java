@@ -33,6 +33,8 @@ public class Image {
     @Builder.Default
     private String name = "New image";
 
+    @Lob
     @Column(name = "CONTENT", nullable = false)
+    @Basic(fetch = FetchType.LAZY)
     private byte[] content;
 }

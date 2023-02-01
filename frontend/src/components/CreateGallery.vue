@@ -55,7 +55,10 @@ export default {
   },
   methods: {
     createGallery(gallery) {
-      let files_promise = gallery.files.map(async file => await this.getBase64(file));
+      let files_promise = gallery.files.map(async file => ({
+        content: await this.getBase64(file),
+        name: file.name
+      }));
       // eslint-disable-next-line
       Promise.all(files_promise).then(results => {
         galleryService.createGallery(gallery.name, results)

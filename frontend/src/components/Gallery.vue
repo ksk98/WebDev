@@ -5,8 +5,12 @@
         <strong>{{currentUser.username}}'s</strong> galleries:
       </h3>
     </header>
-    <p v-for="gallery in data" :key="gallery">{{gallery}}</p>
-    <p v-if="data.content === ''"><i>No galleries present.</i></p>
+
+    <p v-if="!galleries_loaded">No galleries present.</p>
+    <ul v-else-if="galleries_loaded">
+      <li v-for="gallery in content" :key="gallery">{{ gallery }}</li>
+    </ul>
+
     <button onclick="location.href='/createGallery'" class="btn btn-primary btn-block" :disabled="loading">
       <span
         v-show="loading"
@@ -22,15 +26,16 @@ import GalleryService from "@/services/gallery-service";
 
 export default {
   name: "Gallery.vue",
+  data() {
+    return {
+      galleries_loaded: false,
+      content: ""
+    }
+  },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
-    },
-    data() {
-      return {
-        content: "",
-      };
-    },
+    }
   },
   mounted() {
     if (!this.currentUser) {
@@ -40,6 +45,8 @@ export default {
     GalleryService.getGalleries().then(
       (response) => {
         this.content = response.data;
+        this.galleries_loaded = true;
+        console.log("Got " + this.content.length)
       },
       (error) => {
         this.content =
