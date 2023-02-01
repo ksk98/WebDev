@@ -7,17 +7,13 @@
     </header>
     <p v-for="gallery in data" :key="gallery">{{gallery}}</p>
     <p v-if="data.content === ''"><i>No galleries present.</i></p>
-    <Form @submit="handleLogin" :validation-schema="schema">
-      <div class="form-group">
-        <button class="btn btn-primary btn-block" :disabled="loading">
-          <span
-            v-show="loading"
-            class="spinner-border spinner-border-sm"
-          ></span>
-          <span>Create gallery</span>
-        </button>
-      </div>
-    </Form>
+    <button onclick="location.href='/createGallery'" class="btn btn-primary btn-block" :disabled="loading">
+      <span
+        v-show="loading"
+        class="spinner-border spinner-border-sm"
+      ></span>
+      <span>Create gallery</span>
+    </button>
   </div>
 </template>
 
@@ -54,11 +50,6 @@ export default {
           error.toString();
       }
     )
-  },
-  methods: {
-    createGallery() {
-
-    }
   }
 }
 </script>
