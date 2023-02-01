@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="jumbotron">
+    <header v-if="currentUser != null" class="jumbotron">
       <h3>
         <strong>{{currentUser.username}}'s galleries:</strong> Profile
       </h3>
@@ -31,17 +31,17 @@ export default {
     }
 
     GalleryService.getGalleries().then(
-        (response) => {
-          this.content = response.data;
-        },
-        (error) => {
-          this.content =
-            (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
+      (response) => {
+        this.content = response.data;
+      },
+      (error) => {
+        this.content =
+          (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
     )
   }
 }

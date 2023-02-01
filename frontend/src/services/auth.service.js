@@ -4,14 +4,17 @@ import { Buffer } from 'buffer/';
 class AuthService {
   login(user) {
     return axios
-      .post('http://localhost:8080/token', {
+      .post('http://localhost:8080/token',
+          {
         username: user.username,
         password: user.password
-      }, {
+      },
+          {
         headers: {
           'Authorization': 'Basic ' + this.tokenFrom(user.username, user.password)
         }
-      })
+      }
+      )
       .then(response => {
         if (response.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(response.data));
