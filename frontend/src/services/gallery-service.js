@@ -20,8 +20,8 @@ class GalleryService {
         return axios.put(API_URL + '/' + id, {name: name}, {headers: authHeader()});
     }
 
-    deleteGallery(gallery_id, image_id) {
-        return axios.delete(API_URL + '/' + gallery_id + '/images/' + image_id, {headers: authHeader()});
+    deleteGallery(gallery_id) {
+        return axios.delete(API_URL + '/' + gallery_id, {headers: authHeader()});
     }
 
     addImagesTo(id, images) {

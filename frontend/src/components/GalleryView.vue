@@ -13,6 +13,11 @@
           <span v-show="loading" class="spinner-border spinner-border-sm"></span>
           <span>Add images</span>
         </button>
+
+        <button id="button-delete-gallery" class="btn btn-primary" :disabled="loading">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          <span>Delete gallery</span>
+        </button>
       </div>
     </header>
 
@@ -29,6 +34,7 @@
 <script>
 import GalleryService from "@/services/gallery-service";
 import {nextTick} from "vue";
+import galleryService from "@/services/gallery-service";
 
 export default {
   name: "GalleryView",
@@ -107,6 +113,12 @@ export default {
 
       const buttonUploadImages = document.getElementById("button-upload-images")
       buttonUploadImages.onclick = () => location.href='/gallery/' + this.$route.params.id + '/uploadImages'
+
+      const buttonDeleteGallery = document.getElementById("button-delete-gallery")
+      buttonDeleteGallery.onclick = () => {
+        galleryService.deleteGallery(this.$route.params.id)
+        location.href='/galleries'
+      }
     }
   }
 }
