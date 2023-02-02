@@ -87,6 +87,9 @@ export default {
               error.response.data.message) ||
             error.message ||
             error.toString();
+
+          if (this.message === "Unauthorized")
+            this.message = "Incorrect credentials."
         }
       );
     },

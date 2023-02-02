@@ -1,7 +1,7 @@
 <template>
   <div class="jumbotron">
     <header>
-      <div class="text-center">
+      <div id="content-div" class="text-center">
         <h3><strong>{{content.name}}</strong></h3>
         <hr>
         <button id="button-rename" class="btn btn-primary" :disabled="loading">
@@ -69,6 +69,9 @@ export default {
                   error.response.data.message) ||
               error.message ||
               error.toString();
+
+          const contentDiv = document.getElementById("content-div")
+          contentDiv.innerHTML = "<h3><strong>" + this.content + "</strong></h3>"
         }
     )
   },
