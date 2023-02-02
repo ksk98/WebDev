@@ -84,6 +84,7 @@ public class GalleryController extends BaseController {
                         .owner(gallery.getOwner())
                         .gallery(gallery)
                         .content(schema.getContent())
+                        .contentHeader(schema.getContentHeader())
                         .build()
                 ).collect(Collectors.toList())), HttpStatus.OK);
     }

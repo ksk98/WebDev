@@ -5,6 +5,7 @@ import Register from "./components/Register.vue";
 import CreateGallery from "@/components/CreateGallery";
 import GalleryView from "@/components/GalleryView";
 import GalleryRename from "@/components/GalleryRename";
+import GalleryImageUpload from "@/components/GalleryImageUpload";
 // lazy-loaded
 // const Profile = () => import("./components/Profile.vue")
 // const BoardAdmin = () => import("./components/BoardAdmin.vue")
@@ -45,6 +46,10 @@ const routes = [
   {
     path: "/gallery/:id/rename",
     component: GalleryRename
+  },
+  {
+    path: "/gallery/:id/uploadImages",
+    component: GalleryImageUpload
   }
   // {
   //   path: "/profile",

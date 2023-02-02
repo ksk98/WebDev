@@ -9,7 +9,7 @@
           <span>Rename gallery</span>
         </button>
 
-        <button class="btn btn-primary" :disabled="loading">
+        <button id="button-upload-images" class="btn btn-primary" :disabled="loading">
           <span v-show="loading" class="spinner-border spinner-border-sm"></span>
           <span>Add images</span>
         </button>
@@ -104,6 +104,9 @@ export default {
 
       const buttonRename = document.getElementById("button-rename")
       buttonRename.onclick = () => location.href='/gallery/' + this.$route.params.id + '/rename'
+
+      const buttonUploadImages = document.getElementById("button-upload-images")
+      buttonUploadImages.onclick = () => location.href='/gallery/' + this.$route.params.id + '/uploadImages'
     }
   }
 }
