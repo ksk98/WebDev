@@ -1,7 +1,7 @@
 <template>
   <Form @submit="renameGallery" style="margin: 3%">
     <div class="form-group">
-      <label for="name">name</label>
+      <label for="name">Gallery name:</label>
       <Field name="name" type="text" class="form-control" />
       <ErrorMessage name="name" class="error-feedback" />
     </div>
