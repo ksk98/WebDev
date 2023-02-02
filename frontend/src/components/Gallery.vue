@@ -77,13 +77,14 @@ export default {
       await nextTick()
 
       const galleryList = document.getElementById("galleries")
-      for (let gallery in this.content) {
+      for (let galleryInd in this.content) {
         const galleryListEntry = document.createElement("li")
 
-        console.log(gallery)
+        let gallery = this.content[galleryInd]
 
         const imageList = document.createElement("ul")
-        for (let image in gallery.images){
+        for (let imageInd in gallery.images){
+          let image = gallery.images[imageInd]
           const imageListEntry = document.createElement("li")
           const imageDisplay = document.createElement("img")
           imageDisplay.src = image.contentHeader + image.content
