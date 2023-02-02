@@ -81,6 +81,7 @@ public class GalleryController extends BaseController {
         return new ResponseEntity<>(galleryService.addImagesTo(id, payload.getImages().stream().map(
                 schema -> Image
                         .builder()
+                        .name(schema.getName())
                         .owner(gallery.getOwner())
                         .gallery(gallery)
                         .content(schema.getContent())
