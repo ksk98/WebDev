@@ -61,6 +61,7 @@ export default {
       // eslint-disable-next-line
       Promise.all(files_promise).then(results => {
         galleryService.createGallery(gallery.name, results)
+        this.$router.push("/galleries")
       });
     },
     getBase64(file) {

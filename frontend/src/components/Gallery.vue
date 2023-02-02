@@ -3,27 +3,16 @@
     <header v-if="currentUser != null">
       <h3>
         <strong>{{currentUser.username}}'s</strong> galleries:
+        <button onclick="location.href='/createGallery'" class="btn btn-primary float-right" :disabled="loading">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          <span>Create gallery</span>
+        </button>
       </h3>
     </header>
 
     <p v-if="!galleries_loaded">No galleries present.</p>
     <ul v-else-if="galleries_loaded"  id="galleries">
-<!--      <li v-for="gallery in content" :key="gallery">-->
-<!--        <ul>-->
-<!--          <li v-for="image in gallery.images" :key="image">-->
-<!--            {{base64ToImage(image.contentHeader + image.content)}}-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </li>-->
     </ul>
-
-    <button onclick="location.href='/createGallery'" class="btn btn-primary btn-block" :disabled="loading">
-      <span
-        v-show="loading"
-        class="spinner-border spinner-border-sm"
-      ></span>
-      <span>Create gallery</span>
-    </button>
   </div>
 </template>
 
@@ -87,20 +76,6 @@ export default {
         galleryHref.appendChild(document.createTextNode(gallery.name))
         galleryListEntry.appendChild(galleryHref)
         galleryList.appendChild(galleryListEntry)
-
-        // const imageList = document.createElement("ul")
-        // for (let imageInd in gallery.images){
-        //   let image = gallery.images[imageInd]
-        //   const imageListEntry = document.createElement("li")
-        //   const imageDisplay = document.createElement("img")
-        //   imageDisplay.src = image.contentHeader + image.content
-        //   imageDisplay.alt = "IMAGE"
-        //   imageListEntry.appendChild(imageDisplay)
-        //   imageList.appendChild(imageListEntry)
-        // }
-        //
-        // galleryListEntry.appendChild(imageList)
-        // galleryList.appendChild(galleryListEntry)
       }
     }
   }

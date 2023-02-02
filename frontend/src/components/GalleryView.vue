@@ -1,11 +1,10 @@
 <template>
   <div class="jumbotron">
     <header>
-      <h3>
         <div class="text-center">
-          <strong>{{content.name}}</strong>
+          <h3><strong>{{content.name}}</strong></h3>
           <hr>
-          <button class="btn btn-primary" :disabled="loading">
+          <button id="button-rename" class="btn btn-primary" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span><span>Rename</span>
           </button>
 
@@ -19,8 +18,6 @@
             <span>Remove images</span>
           </button>
         </div>
-
-      </h3>
     </header>
 
     <div class="text-center">
@@ -61,7 +58,7 @@ export default {
           this.content = response.data;
           this.galleries_loaded = true;
           this.loading = false;
-          this.displayImages()
+          this.prepContent()
         },
         (error) => {
           this.content =
@@ -74,7 +71,7 @@ export default {
     )
   },
   methods: {
-    async displayImages() {
+    async prepContent() {
       await nextTick()
       let gallery = this.content
 
@@ -98,6 +95,9 @@ export default {
 
         imageList.appendChild(figure)
       }
+
+      const buttonRename = document.getElementById("button-rename")
+      buttonRename.onclick = () => location.href='/gallery/' + this.$route.params.id + '/rename'
     }
   }
 }
