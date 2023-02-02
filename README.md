@@ -16,4 +16,4 @@ Backend można uruchomić poleceniem `gradlew bootRun` z poziomu katalogu głów
 
 Fronted wykorzystuje Vue.js 3, vue-router 4, vuex 4, axios, vee-validate 4, bootstrap oraz vue-fontawesome. W ramach frontendu można skorzystać z większości endpointów backendu. Po rejestracji i logowaniu, na podstronie `/galleries` można tworzyć, przeglądać i zarządzać galeriami.
 
-Frontend uruchamiamy poleceniem `npm run serve` z poziomu podkatalogu `/frontend/src` względem katalogu głównego.
+Frontend uruchamiamy poleceniem `npm run serve` z poziomu podkatalogu `/frontend/src` względem katalogu głównego. Frontend pracuje na porcie `8081`.
