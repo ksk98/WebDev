@@ -44,7 +44,7 @@ export default {
   data() {
     const schema = yup.object().shape({
       name: yup.string().required("Gallery name is required!"),
-      files: yup.array(),
+      files: yup.array().required("Upload must not be empty!"),
     });
 
     return {
@@ -71,8 +71,6 @@ export default {
         // eslint-disable-next-line
         reader.onload = _ => resolve(
             this.prepareFile(file.name, reader.result.split(/(?<=,)/))
-            // .replace('data:', '')
-            // .replace(/^.+,/, '')
         )
         reader.onerror = e => reject (e);
       });

@@ -76,11 +76,7 @@ export default {
         const reader = new FileReader ();
         reader.readAsDataURL (file);
         // eslint-disable-next-line
-        reader.onload = _ => resolve(
-            this.prepareFile(file.name, reader.result.split(/(?<=,)/))
-            // .replace('data:', '')
-            // .replace(/^.+,/, '')
-        )
+        reader.onload = _ => resolve(this.prepareFile(file.name, reader.result.split(/(?<=,)/)))
         reader.onerror = e => reject (e);
       });
     },

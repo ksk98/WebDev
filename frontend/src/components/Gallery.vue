@@ -57,11 +57,6 @@ export default {
     )
   },
   methods: {
-    base64ToImage(content) {
-      const out = new Image()
-      out.src = content;
-      return out.tag;
-    },
     async displayGalleries() {
       await nextTick()
 
