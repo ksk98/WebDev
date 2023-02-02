@@ -12,6 +12,10 @@ class GalleryService {
         return axios.get(API_URL, {headers: authHeader()});
     }
 
+    getGallery(id) {
+        return axios.get(API_URL + '/' + id, {headers: authHeader()});
+    }
+
     updateGallery(id, name) {
         return axios.put(API_URL + '/' + id, {name: name}, {headers: authHeader()});
     }

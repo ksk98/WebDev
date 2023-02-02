@@ -82,19 +82,25 @@ export default {
 
         let gallery = this.content[galleryInd]
 
-        const imageList = document.createElement("ul")
-        for (let imageInd in gallery.images){
-          let image = gallery.images[imageInd]
-          const imageListEntry = document.createElement("li")
-          const imageDisplay = document.createElement("img")
-          imageDisplay.src = image.contentHeader + image.content
-          imageDisplay.alt = "IMAGE"
-          imageListEntry.appendChild(imageDisplay)
-          imageList.appendChild(imageListEntry)
-        }
-
-        galleryListEntry.appendChild(imageList)
+        const galleryHref = document.createElement("a")
+        galleryHref.href = "/gallery/" + gallery.id
+        galleryHref.appendChild(document.createTextNode(gallery.name))
+        galleryListEntry.appendChild(galleryHref)
         galleryList.appendChild(galleryListEntry)
+
+        // const imageList = document.createElement("ul")
+        // for (let imageInd in gallery.images){
+        //   let image = gallery.images[imageInd]
+        //   const imageListEntry = document.createElement("li")
+        //   const imageDisplay = document.createElement("img")
+        //   imageDisplay.src = image.contentHeader + image.content
+        //   imageDisplay.alt = "IMAGE"
+        //   imageListEntry.appendChild(imageDisplay)
+        //   imageList.appendChild(imageListEntry)
+        // }
+        //
+        // galleryListEntry.appendChild(imageList)
+        // galleryList.appendChild(galleryListEntry)
       }
     }
   }

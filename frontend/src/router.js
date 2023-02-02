@@ -3,6 +3,7 @@ import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 import CreateGallery from "@/components/CreateGallery";
+import GalleryView from "@/components/GalleryView";
 // lazy-loaded
 // const Profile = () => import("./components/Profile.vue")
 // const BoardAdmin = () => import("./components/BoardAdmin.vue")
@@ -35,6 +36,10 @@ const routes = [
   {
     path: "/createGallery",
     component: CreateGallery
+  },
+  {
+    path: "/gallery/:id",
+    component: GalleryView
   }
   // {
   //   path: "/profile",
