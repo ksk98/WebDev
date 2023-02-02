@@ -1,12 +1,12 @@
 <template>
   <Form @submit="createGallery" :validation-schema="schema">
     <div class="form-group">
-      <label for="name">Gallery name</label>
+      <label for="name">Gallery name:</label>
       <Field name="name" type="text" class="form-control" />
       <ErrorMessage name="name" class="error-feedback" />
     </div>
     <div class="form-group">
-      <label for="files">files</label>
+      <label for="files">Files:</label>
       <Field name="files" type="file" class="form-control" multiple="" />
       <ErrorMessage name="files" class="error-feedback" />
     </div>

@@ -43,6 +43,7 @@ public class GalleryController extends BaseController {
         User caller = getCaller();
 
         List<Gallery> galleries = galleryService.getGalleryRepository().getAllByOwner(caller);
+        galleries.forEach(gallery -> gallery.getImages().clear());
         return new ResponseEntity<>(galleries, HttpStatus.OK);
     }
 
