@@ -95,4 +95,13 @@ public class GalleryController extends BaseController {
 
         return new ResponseEntity<>(galleryService.removeImagesFrom(id, payload), HttpStatus.OK);
     }
+
+    @DeleteMapping("/images/{id}")
+    public ResponseEntity<Image> removeImage(@PathVariable long id) {
+        Image image = imageService.getImage(id);
+        verifyUserForOwnerThrowUnauthorized(image.getOwner().getId());
+
+        return new ResponseEntity<>(imageService.deleteImage(id), HttpStatus.OK);
+    }
+
 }

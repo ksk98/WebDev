@@ -1,23 +1,19 @@
 <template>
   <div class="jumbotron">
     <header>
-        <div class="text-center">
-          <h3><strong>{{content.name}}</strong></h3>
-          <hr>
-          <button id="button-rename" class="btn btn-primary" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span><span>Rename</span>
-          </button>
+      <div class="text-center">
+        <h3><strong>{{content.name}}</strong></h3>
+        <hr>
+        <button id="button-rename" class="btn btn-primary" :disabled="loading">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          <span>Rename gallery</span>
+        </button>
 
-          <button class="btn btn-primary" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Add images</span>
-          </button>
-
-          <button class="btn btn-primary" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Remove images</span>
-          </button>
-        </div>
+        <button class="btn btn-primary" :disabled="loading">
+          <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+          <span>Add images</span>
+        </button>
+      </div>
     </header>
 
     <div class="text-center">
@@ -88,6 +84,16 @@ export default {
 
         const caption = document.createElement("figcaption")
         caption.appendChild(document.createTextNode(image.name))
+
+        const removeImageButton = document.createElement("button")
+        removeImageButton.className = "btn btn-primary"
+        removeImageButton.textContent = "delete"
+        removeImageButton.style.margin = "1%"
+        removeImageButton.onclick = () => {
+          GalleryService.deleteImage(image.id)
+          location.reload()
+        }
+        caption.appendChild(removeImageButton)
 
         figure.style.margin = "3%"
         figure.appendChild(imageDisplay)
